@@ -164,7 +164,7 @@ class Stream
      * @see http://php.net/manual/function.stream-isatty.php
      * @throws \Exception
      */
-    function isAtty()
+    function isatty()
     {
         if(version_compare(phpversion(), '7.2', '<')){
             return @posix_isatty($this->getHandle());
@@ -214,6 +214,20 @@ class Stream
     /*
     * Read methods
     */
+
+    /**
+     * Return bytes of given length
+     *
+     * @param int $length
+     * @return bool|string
+     * @see http://php.net/manual/function.fread.php
+     * @throws \Exception
+     */
+    function read(int $length)
+    {
+        return fread($this->getHandle(), $length);
+    }
+
     /**
      * Return one byte
      *
@@ -227,29 +241,16 @@ class Stream
     }
 
     /**
-     * Return bytes of given length
-     *
-     * @param int $length
-     * @return bool|string
-     * @see http://php.net/manual/function.fread.php
-     * @throws \Exception
-     */
-    function readBytes(int $length)
-    {
-        return fread($this->getHandle(), $length);
-    }
-
-    /**
      * Return line
      *
-     * @param int|null $length
+     * @param int|null $bytes
      * @return bool|string
      * @see http://php.net/manual/function.fgets.php
      * @throws \Exception
      */
-    function readLine(int $length = null)
+    function readLine(int $bytes = null)
     {
-        return isset($length) ? fgets($this->getHandle(), $length) : fgets($this->getHandle());
+        return isset($bytes) ? fgets($this->getHandle(), $bytes) : fgets($this->getHandle());
     }
 
 

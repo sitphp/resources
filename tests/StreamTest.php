@@ -62,7 +62,7 @@ class StreamTest extends TestCase
     }
     function testIsAtty(){
         $stream = new Stream(__FILE__, 'r');
-        $this->assertFalse($stream->isAtty());
+        $this->assertFalse($stream->isatty());
     }
     function testGetResourceTypeShouldReturnType(){
         $stream = new Stream('php://memory');
