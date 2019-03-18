@@ -3,7 +3,7 @@
 namespace SitPHP\Resources;
 
 
-class Stream extends Resource
+class Stream
 {
 
     // Internal properties
