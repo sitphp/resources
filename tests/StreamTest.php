@@ -140,9 +140,9 @@ class StreamTest extends TestCase
     function testPointer(){
         $stream = new Stream('php://memory', 'r+w+');
         $stream->put('write');
-        $stream->setPointerPosition(1);
+        $stream->seek(1);
         $this->assertEquals('rite', $stream->getContents());
-        $this->assertEquals(5, $stream->getPointerPosition());
+        $this->assertEquals(5, $stream->tell());
     }
 
     /*
@@ -151,8 +151,8 @@ class StreamTest extends TestCase
     function testTell(){
         $stream = new Stream('php://memory', 'w+');
         fwrite($stream->getHandle(), 'write');
-        $stream->setPointerPosition(1);
-        $this->assertEquals(1, $stream->getPointerPosition());
+        $stream->seek(1);
+        $this->assertEquals(1, $stream->tell());
     }
 
     /*

@@ -3,6 +3,8 @@
 namespace SitPHP\Resources;
 
 
+use Exception;
+
 class Stream
 {
 
@@ -32,12 +34,12 @@ class Stream
      * Return handle
      *
      * @return resource
-     * @throws \Exception
+     * @throws Exception
      */
     function getHandle(){
         if(!isset($this->handle)){
             if(!$handle = fopen($this->path, $this->mode, $this->context)){
-                throw new \Exception('Could not open resource "'.$this->path.'"');
+                throw new Exception('Could not open resource "'.$this->path.'"');
             }
             $this->handle = $handle;
         }
@@ -162,7 +164,7 @@ class Stream
      *
      * @return bool
      * @see http://php.net/manual/function.stream-isatty.php
-     * @throws \Exception
+     * @throws Exception
      */
     function isatty()
     {
@@ -193,7 +195,7 @@ class Stream
      *
      * @return array
      * @see http://php.net/manual/function.fstat.php
-     * @throws \Exception
+     * @throws Exception
      */
     function getStat()
     {
@@ -221,7 +223,7 @@ class Stream
      * @param int $length
      * @return bool|string
      * @see http://php.net/manual/function.fread.php
-     * @throws \Exception
+     * @throws Exception
      */
     function read(int $length)
     {
@@ -233,7 +235,7 @@ class Stream
      *
      * @return bool|string
      * @see http://php.net/manual/function.fgetc.php
-     * @throws \Exception
+     * @throws Exception
      */
     function readByte()
     {
@@ -246,7 +248,7 @@ class Stream
      * @param int|null $bytes
      * @return bool|string
      * @see http://php.net/manual/function.fgets.php
-     * @throws \Exception
+     * @throws Exception
      */
     function readLine(int $bytes = null)
     {
@@ -264,7 +266,7 @@ class Stream
      * @param string $message
      * @return bool|int
      * @see http://php.net/manual/function.fwrite.php
-     * @throws \Exception
+     * @throws Exception
      */
     function put(string $message)
     {
@@ -281,7 +283,7 @@ class Stream
      *
      * @return bool
      * @see http://php.net/manual/function.feof.php
-     * @throws \Exception
+     * @throws Exception
      */
     function isEndOfFile()
     {
@@ -293,7 +295,7 @@ class Stream
      *
      * @return bool
      * @see http://php.net/manual/function.fflush.php
-     * @throws \Exception
+     * @throws Exception
      */
     function flush()
     {
@@ -305,7 +307,7 @@ class Stream
      *
      * @return bool|int
      * @see http://php.net/manual/function.fpassthru.php
-     * @throws \Exception
+     * @throws Exception
      */
     function passThru()
     {
@@ -319,9 +321,9 @@ class Stream
      * @param int $whence
      * @return int
      * @see http://php.net/manual/function.fseek.php
-     * @throws \Exception
+     * @throws Exception
      */
-    function setPointerPosition(int $offset, int $whence = SEEK_SET)
+    function seek(int $offset, int $whence = SEEK_SET)
     {
         return fseek($this->getHandle(), $offset, $whence);
     }
@@ -331,9 +333,9 @@ class Stream
      *
      * @return bool|int
      * @see http://php.net/manual/function.ftell.php
-     * @throws \Exception
+     * @throws Exception
      */
-    function getPointerPosition()
+    function tell()
     {
         return ftell($this->getHandle());
     }
@@ -343,7 +345,7 @@ class Stream
      *
      * @return bool
      * @see http://php.net/manual/function.rewind.php
-     * @throws \Exception
+     * @throws Exception
      */
     function rewind()
     {
@@ -355,7 +357,7 @@ class Stream
      *
      * @return bool
      * @see http://php.net/manual/function.fclose.php
-     * @throws \Exception
+     * @throws Exception
      */
     function close()
     {
