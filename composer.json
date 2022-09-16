@@ -11,10 +11,11 @@
         }
     ],
     "require": {
-        "php": ">=7.0"
+        "php": ">=7.2",
+        "ext-posix": "*"
     },
     "require-dev": {
-        "gealex/doublit" : "~2.0"
+        "sitphp/doubles" : "v2.4.*"
     },
     "autoload": {
         "psr-4": {
