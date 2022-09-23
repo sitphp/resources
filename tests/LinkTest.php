@@ -3,8 +3,8 @@
 namespace SitPHP\Resources\Tests;
 
 use SitPHP\Doubles\TestCase;
-use SitPHP\Resources\StandardFile;
 use SitPHP\Resources\Link;
+use SitPHP\Resources\StandardFile;
 
 class LinkTest extends TestCase
 {
@@ -13,7 +13,8 @@ class LinkTest extends TestCase
     private $file_path = '/tmp/file';
     private $link_path = '/tmp/link';
 
-    function testIsValid(){
+    function testIsValid()
+    {
         $file = new StandardFile($this->file_path);
         $link = new Link($this->link_path, $this->file_path);
 
@@ -23,7 +24,8 @@ class LinkTest extends TestCase
         $file->delete();
     }
 
-    function testCreate(){
+    function testCreate()
+    {
         $file = new StandardFile($this->file_path);
         $link = new Link($this->link_path, $this->file_path);
 
@@ -35,7 +37,8 @@ class LinkTest extends TestCase
         $file->delete();
     }
 
-    function testDelete(){
+    function testDelete()
+    {
 
         $file = new StandardFile($this->file_path);
         $link = new Link($this->link_path, $this->file_path);
@@ -45,7 +48,8 @@ class LinkTest extends TestCase
         $file->delete();
     }
 
-    function testAlreadyExistentLink(){
+    function testAlreadyExistentLink()
+    {
         $file = new StandardFile($this->file_path);
         symlink($this->file_path, $this->link_path);
         $link = new Link($this->link_path);
@@ -55,7 +59,8 @@ class LinkTest extends TestCase
         $file->delete();
     }
 
-    function testGetStat(){
+    function testGetStat()
+    {
 
         $file = new StandardFile($this->file_path);
         $link = new Link($this->link_path, $this->file_path);
@@ -66,7 +71,8 @@ class LinkTest extends TestCase
         $file->delete();
     }
 
-    function testGetInfo(){
+    function testGetInfo()
+    {
         $file = new StandardFile($this->file_path);
         $link = new Link($this->link_path, $this->file_path);
         $info = $link->getInfo();
@@ -75,7 +81,8 @@ class LinkTest extends TestCase
         $file->delete();
     }
 
-    function testGetTargetPath(){
+    function testGetTargetPath()
+    {
         $file = new StandardFile($this->file_path);
         $link = new Link($this->link_path, $this->file_path);
         $target_path = $link->getTargetPath();
@@ -84,18 +91,20 @@ class LinkTest extends TestCase
         $file->delete();
     }
 
-    function testInvalidLinkFileShouldFail(){
+    function testInvalidLinkFileShouldFail()
+    {
         $this->expectException(\InvalidArgumentException::class);
         $file = new StandardFile($this->file_path);
         try {
             new Link($this->file_path);
-        } catch (\Exception $e){
+        } catch (\Exception $e) {
             $file->delete();
             throw $e;
         }
     }
 
-    function testGetTargetFile(){
+    function testGetTargetFile()
+    {
         $file = new StandardFile($this->file_path);
         $link = new Link($this->link_path, $this->file_path);
         $target_file = $link->getTargetFile();

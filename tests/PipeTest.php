@@ -15,7 +15,8 @@ class PipeTest extends TestCase
     protected $dir_path = '/tmp/dir';
 
 
-    function testCreate(){
+    function testCreate()
+    {
         $pipe = new Pipe($this->pipe_path);
         $file = new File($this->pipe_path);
         $this->assertTrue($file->isPipe());
@@ -23,7 +24,8 @@ class PipeTest extends TestCase
         $pipe->delete();
     }
 
-    function testIsValid(){
+    function testIsValid()
+    {
         $this->assertFalse(Pipe::isValid($this->pipe_path));
         $file = new Directory($this->dir_path);
         $pipe = new Pipe($this->pipe_path);
@@ -33,7 +35,8 @@ class PipeTest extends TestCase
         $file->delete();
     }
 
-    function testPipeOnExistentFile(){
+    function testPipeOnExistentFile()
+    {
         posix_mkfifo($this->pipe_path, 0666);
         $pipe = new Pipe($this->pipe_path);
         $pipe->open();
@@ -44,12 +47,13 @@ class PipeTest extends TestCase
     }
 
 
-    function testPipeOnInvalidFileShouldFail(){
+    function testPipeOnInvalidFileShouldFail()
+    {
         $this->expectException(InvalidArgumentException::class);
         $file = new StandardFile($this->pipe_path);
         try {
             new Pipe($this->pipe_path);
-        } catch (\Exception $e){
+        } catch (\Exception $e) {
             throw $e;
         } finally {
             $file->delete();

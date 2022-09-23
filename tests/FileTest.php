@@ -9,43 +9,59 @@ use SitPHP\Resources\File;
 use SitPHP\Resources\Link;
 use SitPHP\Resources\Pipe;
 use SitPHP\Resources\StandardFile;
-use SitPHP\Resources\Stream;
 
 class FileTest extends TestCase
 {
-    function testGetType(){
-        $file  = new File(__FILE__);
+    function testGetType()
+    {
+        $file = new File(__FILE__);
         $this->assertEquals(File::TYPE_FILE, $file->getType());
     }
-    function testIsPipe(){
-        $file  = new File(__FILE__);
+
+    function testIsPipe()
+    {
+        $file = new File(__FILE__);
         $this->assertFalse($file->isPipe());
     }
-    function testIsLink(){
-        $file  = new File(__FILE__);
+
+    function testIsLink()
+    {
+        $file = new File(__FILE__);
         $this->assertFalse($file->isLink());
     }
-    function testIsChar(){
-        $file  = new File(__FILE__);
+
+    function testIsChar()
+    {
+        $file = new File(__FILE__);
         $this->assertFalse($file->isChar());
     }
-    function testIsDir(){
-        $file  = new File(__FILE__);
+
+    function testIsDir()
+    {
+        $file = new File(__FILE__);
         $this->assertFalse($file->isDir());
     }
-    function testIsStandardFile(){
-        $file  = new File(__FILE__);
+
+    function testIsStandardFile()
+    {
+        $file = new File(__FILE__);
         $this->assertTrue($file->isStandardFile());
     }
-    function testIsBloc(){
-        $file  = new File(__FILE__);
+
+    function testIsBloc()
+    {
+        $file = new File(__FILE__);
         $this->assertFalse($file->isBloc());
     }
-    function testIsExecutable(){
-        $file  = new File(__FILE__);
+
+    function testIsExecutable()
+    {
+        $file = new File(__FILE__);
         $this->assertFalse($file->isExecutable());
     }
-    function testDelete(){
+
+    function testDelete()
+    {
         new StandardFile('/tmp/file');
         new Directory('/tmp/dir');
         $file = new File('/tmp/file');
@@ -55,7 +71,9 @@ class FileTest extends TestCase
         $this->assertFalse(file_exists('/tmp/file'));
         $this->assertFalse(file_exists('/tmp/dir'));
     }
-    function testBuild(){
+
+    function testBuild()
+    {
         new StandardFile('/tmp/file');
         new Directory('/tmp/dir');
         new Link('/tmp/link', '/tmp/file');

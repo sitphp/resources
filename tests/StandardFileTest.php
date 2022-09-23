@@ -6,7 +6,8 @@ use SitPHP\Doubles\TestCase;
 use SitPHP\Resources\Directory;
 use SitPHP\Resources\StandardFile;
 
-class StandardFileTest extends TestCase {
+class StandardFileTest extends TestCase
+{
 
     protected $file_path = '/tmp/file';
     protected $new_file_path = '/tmp/new_file';
@@ -15,18 +16,20 @@ class StandardFileTest extends TestCase {
     protected $dir_path = '/tmp/dir';
 
 
-    public function testConstruct(){
+    public function testConstruct()
+    {
         $file = new StandardFile($this->file_path);
         $this->assertTrue(is_file($this->file_path));
         $file->delete();
     }
 
-    public function testConstructWithInvalidFileShouldFail(){
+    public function testConstructWithInvalidFileShouldFail()
+    {
         $this->expectException(\InvalidArgumentException::class);
         try {
             $dir = new Directory($this->dir_path);
             $file = new StandardFile($this->dir_path);
-        } catch (\Exception $e){
+        } catch (\Exception $e) {
             throw $e;
         } finally {
             $dir->delete();
@@ -165,7 +168,6 @@ class StandardFileTest extends TestCase {
     }
 
 
-
     public function testGetSize()
     {
         $file = new StandardFile($this->file_path);
@@ -176,7 +178,7 @@ class StandardFileTest extends TestCase {
     public function testGetName()
     {
         $file = new StandardFile($this->file_path);
-        $this->assertEquals('file' ,$file->getName());
+        $this->assertEquals('file', $file->getName());
         $file->delete();
     }
 
@@ -282,16 +284,17 @@ class StandardFileTest extends TestCase {
         $dir = new Directory($this->dir_path);
         $file->move($this->dir_path);
         $this->assertFalse(StandardFile::isValid($this->file_path));
-        $this->assertTrue(StandardFile::isValid($this->dir_path.'/file'));
+        $this->assertTrue(StandardFile::isValid($this->dir_path . '/file'));
         $dir->delete();
     }
 
-    function testMoveToNonDirShouldFail(){
+    function testMoveToNonDirShouldFail()
+    {
         $this->expectException(\InvalidArgumentException::class);
         try {
             $file = new StandardFile($this->file_path);
             $file->move($this->dir_path);
-        } catch (\Exception $e){
+        } catch (\Exception $e) {
             throw $e;
         } finally {
             $file->delete();

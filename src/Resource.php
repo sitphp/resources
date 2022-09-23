@@ -12,10 +12,17 @@ abstract class Resource
      */
     protected $path;
 
-    function __construct(string $path){
+    /**
+     * @param string $path
+     */
+    function __construct(string $path)
+    {
         $this->path = $path;
     }
 
+    /**
+     * @return string
+     */
     function getPath(): string
     {
         return $this->path;

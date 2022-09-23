@@ -11,13 +11,15 @@ class StreamTest extends TestCase
 
     protected $file_path = '/tmp/file';
     protected $stream_path = 'php://memory';
-    
-    function testOpen(){
+
+    function testOpen()
+    {
         $stream = new Stream($this->stream_path);
         $this->assertIsResource($stream->open());
     }
 
-    function testClose(){
+    function testClose()
+    {
         $stream = new Stream($this->stream_path);
         $handle = $stream->open();
         $this->assertTrue($stream->close());
@@ -25,49 +27,64 @@ class StreamTest extends TestCase
         $this->assertNull($stream->close());
     }
 
-    function testGetHandleShouldReturnAResource(){
+    function testGetHandle()
+    {
         $stream = new Stream($this->stream_path);
         $handle = $stream->open();
         $this->assertIsResource($handle);
         $stream->close();
     }
 
-    function testGetPath(){
+    function testGetHandleShouldReturnAResource()
+    {
+        $stream = new Stream($this->stream_path);
+        $handle = $stream->open();
+        $this->assertIsResource($handle);
+        $stream->close();
+    }
+
+    function testGetPath()
+    {
         $stream = new Stream($this->stream_path);
         $stream->open();
         $this->assertEquals($this->stream_path, $stream->getPath());
         $stream->close();
     }
 
-    function writeCSV(){
+    function writeCSV()
+    {
         $stream = new Stream($this->stream_path);
         $stream->open();
         $this->assertTrue($stream->writeCSV(['test' => 1]));
         $stream->close();
     }
 
-    function readCSV(){
+    function readCSV()
+    {
         $stream = new Stream($this->stream_path);
         $stream->open();
         $this->assertEquals('', $stream->readCSV());
         $stream->close();
     }
 
-    function testFlush(){
+    function testFlush()
+    {
         $stream = new Stream($this->stream_path);
         $stream->open();
         $this->assertTrue($stream->flush());
         $stream->close();
     }
 
-    function testParse(){
+    function testParse()
+    {
         $stream = new Stream($this->stream_path);
         $stream->open();
         $this->assertEquals('', $stream->parse(''));
         $stream->close();
     }
 
-    function testCSV(){
+    function testCSV()
+    {
         $stream = new Stream($this->stream_path);
         $stream->open();
         $stream->writeCSV(['test']);
@@ -76,7 +93,8 @@ class StreamTest extends TestCase
         $stream->close();
     }
 
-    function testIsLocal(){
+    function testIsLocal()
+    {
         $stream_1 = new Stream('php://stdin');
         $stream_1->open('r');
         $this->assertTrue($stream_1->isLocal());
@@ -84,21 +102,24 @@ class StreamTest extends TestCase
 
     }
 
-    function testIsAtty(){
+    function testIsAtty()
+    {
         $stream = new Stream('/dev/tty', 'r');
         $stream->open();
         $this->assertTrue($stream->isatty());
         $stream->close();
     }
 
-    function testGetResourceTypeShouldReturnType(){
+    function testGetResourceTypeShouldReturnType()
+    {
         $stream = new Stream($this->stream_path);
         $stream->open();
         $this->assertEquals('stream', $stream->getResourceType());
         $stream->close();
     }
 
-    function testIsEndOfFile(){
+    function testIsEndOfFile()
+    {
         $stream = new Stream($this->stream_path, 'w+');
         $stream->open();
         $stream->write('write');
@@ -108,7 +129,8 @@ class StreamTest extends TestCase
         $stream->close();
     }
 
-    function testWrite(){
+    function testWrite()
+    {
         $stream = new Stream($this->stream_path, 'w+');
         $stream->open();
         $stream->write('write');
@@ -117,53 +139,58 @@ class StreamTest extends TestCase
         $stream->close();
     }
 
-    function testReadByte(){
+    function testReadByte()
+    {
         $stream = new Stream($this->stream_path);
         $stream->open();
         $stream->write('byte');
         $stream->rewind();
-        $this->assertEquals('b',$stream->readByte());
-        $this->assertEquals('y',$stream->readByte());
-        $this->assertEquals('t',$stream->readByte());
-        $this->assertEquals('e',$stream->readByte());
-        $this->assertEquals('',$stream->readByte());
+        $this->assertEquals('b', $stream->readByte());
+        $this->assertEquals('y', $stream->readByte());
+        $this->assertEquals('t', $stream->readByte());
+        $this->assertEquals('e', $stream->readByte());
+        $this->assertEquals('', $stream->readByte());
         $stream->close();
     }
 
-    function testReadBytes(){
+    function testReadBytes()
+    {
         $stream = new Stream($this->stream_path);
         $stream->open();
         $stream->write('bytes');
         $stream->rewind();
-        $this->assertEquals('byte',$stream->read(4));
+        $this->assertEquals('byte', $stream->read(4));
         $stream->close();
     }
 
-    function testReadLine(){
+    function testReadLine()
+    {
         $stream = new Stream($this->stream_path);
         $stream->open();
-        $stream->write('bytes'."\n".'on'."\n".'lines');
+        $stream->write('bytes' . "\n" . 'on' . "\n" . 'lines');
         $stream->rewind();
         $stream->read(2);
-        $this->assertEquals('tes'."\n",$stream->readLine());
+        $this->assertEquals('tes' . "\n", $stream->readLine());
         $stream->close();
     }
 
-    function testPassThru(){
+    function testPassThru()
+    {
         $stream = new Stream($this->stream_path);
         $stream->open();
-        $stream->write('bytes'."\n".'on'."\n".'lines');
+        $stream->write('bytes' . "\n" . 'on' . "\n" . 'lines');
         $stream->rewind();
         $stream->read(2);
         ob_start();
         $bytes = $stream->passThru();
         $written = ob_get_clean();
-        $this->assertEquals(12,$bytes);
-        $this->assertEquals('tes'."\n".'on'."\n".'lines', $written);
+        $this->assertEquals(12, $bytes);
+        $this->assertEquals('tes' . "\n" . 'on' . "\n" . 'lines', $written);
         $stream->close();
     }
 
-    function testPointer(){
+    function testPointer()
+    {
         $stream = new Stream($this->stream_path);
         $stream->open();
         $stream->write('write');
@@ -173,7 +200,8 @@ class StreamTest extends TestCase
         $stream->close();
     }
 
-    function testTell(){
+    function testTell()
+    {
         $stream = new Stream($this->stream_path);
         $stream->open();
         fwrite($stream->open(), 'write');
@@ -182,40 +210,46 @@ class StreamTest extends TestCase
         $stream->close();
     }
 
-    function testSetTimeout(){
+    function testSetTimeout()
+    {
         $stream = new Stream($this->stream_path);
         $stream->open();
         $this->assertFalse($stream->setTimeOut('2'));
         $stream->close();
     }
 
-    function testSetChunkSize(){
+    function testSetChunkSize()
+    {
         $stream = new Stream($this->stream_path);
         $stream->open();
         $this->assertIsInt($stream->setChunkSize(2));
         $stream->close();
     }
 
-    function testSetReadBuffer(){
+    function testSetReadBuffer()
+    {
         $stream = new Stream($this->stream_path);
         $stream->open();
         $this->assertIsInt($stream->setWriteBuffer(2));
         $stream->close();
     }
 
-    function testSetWriteBuffer(){
+    function testSetWriteBuffer()
+    {
         $stream = new Stream($this->stream_path);
         $stream->open();
         $this->assertIsInt($stream->setReadBuffer(2));
         $stream->close();
     }
 
-    function testGetPathInfo(){
+    function testGetPathInfo()
+    {
         $stream = new Stream($this->stream_path);
         $this->assertIsArray($stream->getPathInfo());
     }
-    
-    function testLock(){
+
+    function testLock()
+    {
         $file = new StandardFile($this->file_path);
         $file->open();
         $this->assertTrue($file->lock(LOCK_EX));
@@ -223,7 +257,8 @@ class StreamTest extends TestCase
         $file->delete();
     }
 
-    function testUnLock(){
+    function testUnLock()
+    {
         $file = new StandardFile($this->file_path);
         $file->open();
         $this->assertTrue($file->lock(LOCK_EX));
@@ -232,7 +267,8 @@ class StreamTest extends TestCase
         $file->delete();
     }
 
-    function testSetBlocking(){
+    function testSetBlocking()
+    {
         $file = new StandardFile($this->file_path);
         $file->open();
         $this->assertTrue($file->setBlocking(true));
@@ -241,7 +277,8 @@ class StreamTest extends TestCase
         $file->delete();
     }
 
-    function testSupportsLock(){
+    function testSupportsLock()
+    {
         $file = new StandardFile($this->file_path);
         $file->open();
         $this->assertTrue($file->supportsLock());
@@ -249,7 +286,8 @@ class StreamTest extends TestCase
         $file->delete();
     }
 
-    function testGetMetadata(){
+    function testGetMetadata()
+    {
         $file = new StandardFile($this->file_path);
         $file->open();
         $this->assertIsArray($file->getMetadata());
@@ -257,7 +295,8 @@ class StreamTest extends TestCase
         $file->delete();
     }
 
-    function testGetLine(){
+    function testGetLine()
+    {
         $file = new StandardFile($this->file_path);
         $file->open();
         $this->assertEquals('', $file->getLine(0));
@@ -265,7 +304,8 @@ class StreamTest extends TestCase
         $file->delete();
     }
 
-    function testAppendFilter(){
+    function testAppendFilter()
+    {
         stream_filter_register('test', Filter::class);
         $file = new StandardFile($this->file_path);
         $file->open();
@@ -274,7 +314,8 @@ class StreamTest extends TestCase
         $file->delete();
     }
 
-    function testPrependFilter(){
+    function testPrependFilter()
+    {
         stream_filter_register('test', Filter::class);
         $file = new StandardFile($this->file_path);
         $file->open();
@@ -283,7 +324,8 @@ class StreamTest extends TestCase
         $file->delete();
     }
 
-    function testGetFilter(){
+    function testGetFilter()
+    {
         stream_filter_register('test', Filter::class);
         $file = new StandardFile($this->file_path);
         $file->open();
@@ -293,7 +335,8 @@ class StreamTest extends TestCase
         $file->delete();
     }
 
-    function testRemoveFilter(){
+    function testRemoveFilter()
+    {
         stream_filter_register('test', Filter::class);
         $file = new StandardFile($this->file_path);
         $file->open('w+');
@@ -304,7 +347,8 @@ class StreamTest extends TestCase
         $file->delete();
     }
 
-    function testCopyToStream(){
+    function testCopyToStream()
+    {
 
         $file = new StandardFile($this->file_path);
         $file->open();
@@ -319,6 +363,7 @@ class StreamTest extends TestCase
 
 }
 
-class Filter extends \php_user_filter {
+class Filter extends \php_user_filter
+{
 
 }

@@ -28,6 +28,10 @@ abstract class FileResource extends Resource
         return dirname($this->path, $levels);
     }
 
+    /**
+     * @param string|null $suffix
+     * @return string
+     */
     function getName(string $suffix = null): string
     {
         return basename($this->path, $suffix);
@@ -181,12 +185,12 @@ abstract class FileResource extends Resource
      */
     function rename(string $new_name, $context = null): bool
     {
-        $path_parts =  explode(DIRECTORY_SEPARATOR, $this->path);
+        $path_parts = explode(DIRECTORY_SEPARATOR, $this->path);
         array_pop($path_parts);
         $path_parts[] = $new_name;
         $new_path = implode(DIRECTORY_SEPARATOR, $path_parts);
         $success = isset($context) ? rename($this->path, $new_path, $context) : rename($this->path, $new_path);
-        if($success){
+        if ($success) {
             $this->path = $new_path;
         }
         return $success;
@@ -206,16 +210,21 @@ abstract class FileResource extends Resource
         return copy($this->path, $dest, $context);
     }
 
-    function move(string $to, $context = null) : bool
+    /**
+     * @param string $to
+     * @param $context
+     * @return bool
+     */
+    function move(string $to, $context = null): bool
     {
-        if(!is_dir($to)){
+        if (!is_dir($to)) {
             throw new \InvalidArgumentException('Invalid directory');
         }
-        $path_parts =  explode(DIRECTORY_SEPARATOR, $this->path);
+        $path_parts = explode(DIRECTORY_SEPARATOR, $this->path);
         $name = array_pop($path_parts);
-        $new_path = $to.DIRECTORY_SEPARATOR.$name;
+        $new_path = $to . DIRECTORY_SEPARATOR . $name;
         $success = isset($context) ? rename($this->path, $new_path, $context) : rename($this->path, $new_path);
-        if($success){
+        if ($success) {
             $this->path = $new_path;
         }
         return $success;
@@ -255,7 +264,11 @@ abstract class FileResource extends Resource
         return is_writable($this->path);
     }
 
-    function getStat(){
+    /**
+     * @return array|false
+     */
+    function getStat()
+    {
         return stat($this->path);
     }
 
